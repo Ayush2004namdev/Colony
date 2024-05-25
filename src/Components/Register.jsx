@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -11,9 +12,10 @@ const Register = () => {
         confirmPassword: ''
     });
 
-    const handleRegisterFormSubmitClick = (e) => {
-        e.preventDefault();
-        console.log(userData);
+    const handleRegisterFormSubmitClick = async(e) => {
+        console.log('postsignup', userData);
+        const res = await axios.post(import.meta.env.VITE_BASE_URL + '/user/register',userData);
+        console.log(res.data);
     }
 
   return (
@@ -26,8 +28,7 @@ const Register = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST" onSubmit={handleRegisterFormSubmitClick}>
-
+          
           <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
@@ -125,12 +126,12 @@ const Register = () => {
             <div>
               <button
                 type="submit"
+                onClick={handleRegisterFormSubmitClick}
                 className="flex w-full justify-center rounded-md bg-[#68D2D2] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#56b9b9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign up
               </button>
             </div>
-          </form>
           <p className="mt-10 text-center text-sm text-gray-500">
             Allready a member?{' '}
             <Link to='/signup' href="#" className="font-semibold leading-6 text-[#68D2D2] hover:text-[#56b9b9]">
@@ -143,4 +144,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Register;
