@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
-
+    const navigate = useNavigate();
     const [userData,setUserData] = useState({
         name: '',
         username: '',
@@ -16,6 +16,7 @@ const Register = () => {
         console.log('postsignup', userData);
         const res = await axios.post(import.meta.env.VITE_BASE_URL + '/user/register',userData);
         console.log(res.data);
+        navigate('/');
     }
 
   return (
