@@ -1,22 +1,33 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [err, setErr] = useState('');
     const {id} = useParams();
 
     const handleSubmit = (e) => {
         console.log(id);
         e.preventDefault();
-        // Add your password reset logic here
+        if(password !== confirmPassword) return alert('Passwords do not match');
+        else{
+            axios.post(import.meta.env.VITE_BASE_URL + '/user/reset-password/v1/'+id, {password})
+            .then((res) => console.log(res.data))
+            .catch(err => {
+                console.log(err)
+                setErr(err.response.data.message);
+            });
+        }
     };
-
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             <h1 className="text-3xl font-bold mb-6">Reset Password</h1>
             <form className="w-64" onSubmit={handleSubmit}>
+                <p>{err}</p>
                 <div className="mb-4">
+
                     <label htmlFor="password" className="block mb-2 font-medium">Password</label>
                     <input
                         type="password"

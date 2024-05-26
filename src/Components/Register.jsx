@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
     const navigate = useNavigate();
+    const [err,setErr] = useState('');
     const [userData,setUserData] = useState({
         name: '',
         username: '',
@@ -14,22 +15,27 @@ const Register = () => {
 
     const handleRegisterFormSubmitClick = async(e) => {
         console.log('postsignup', userData);
-        const res = await axios.post(import.meta.env.VITE_BASE_URL + '/user/register',userData);
-        console.log(res.data);
-        navigate('/');
+        try{
+          const res = await axios.post(import.meta.env.VITE_BASE_URL + '/user/register',userData);
+          console.log(res.data);
+          setErr('');
+          navigate('/');
+        }catch(err){
+          setErr(err.response.data.message);
+        }
     }
 
   return (
     <>
         <div className="flex bg-gray-50 min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-[1.5vw] font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          
+          <h1 className='text-red'>{err}</h1>
           <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
