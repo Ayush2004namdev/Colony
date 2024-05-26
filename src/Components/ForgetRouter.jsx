@@ -13,7 +13,7 @@ const ResetPassword = () => {
         e.preventDefault();
         if(password !== confirmPassword) return alert('Passwords do not match');
         else{
-            axios.post(import.meta.env.VITE_BASE_URL + '/user/reset-password/v1/'+id, {password})
+            axios.post(import.meta.env.VITE_BASE_URL + '/user/reset-password/v2/'+id, {password})
             .then((res) => console.log(res.data))
             .catch(err => {
                 console.log(err)
